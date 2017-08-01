@@ -1,21 +1,23 @@
 /*jshint browser: true*/
 /*global Tree: true*/
+/*global Tile: true*/
 
 (function(){
     "use strict";
     
     //-----------------------------------
     var Entities = {
-        treeCollection: []
+        treeCollection: [],
+        tileCollection: []
     };
 
     //-----------------------------------
     var Cycle = {
         width: 500,
         height: 500,
-        fps: 30,
-        rows: 2,
-        columns: 2,
+        fps: 10,
+        rows: 4,
+        columns: 4,
         gridWidth: 50,
         gridHeight: 50,
 
@@ -31,9 +33,17 @@
             for(var ii = 0; ii < len; ++ii){
                 var col = ii % this.columns;
                 var row = Math.floor(ii / this.rows);
-                //var age = Math.round(Math.random() * 500);
-                var age = 0;
-                var temp = new Tree(row, col, this.gridWidth/2, this.gridHeight/2, age);
+                
+                //create tile
+                var fertility = Math.round(Math.random() * 100);
+                var moisture = Math.round(Math.random() * 100);
+                var temp = new Tile(row, col, fertility, moisture);
+                Entities.tileCollection.push(temp);
+                
+                //create tree
+                var age = Math.round(Math.random() * 500);
+                //var age = 0;
+                temp = new Tree(row, col, this.gridWidth/2, this.gridHeight/2, age);
                 Entities.treeCollection.push(temp);
             }
 
@@ -47,6 +57,10 @@
         update: function () {
             //console.log('updating...');
             this.context.clearRect(0, 0, this.width, this.height);
+            
+            Entities.tileCollection.forEach(function (tile) {
+                tile.update();
+            });
             Entities.treeCollection.forEach(function (tree) {
                 tree.update();
             });
@@ -57,6 +71,10 @@
         },
         render: function () {
             //console.log('rendering...');
+            Entities.tileCollection.forEach(function (tile) {
+                tile.render();
+            });
+            
             Entities.treeCollection.forEach(function (tree) {
                 tree.render();
             });
