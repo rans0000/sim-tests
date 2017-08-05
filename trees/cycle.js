@@ -16,8 +16,8 @@
         width: 500,
         height: 500,
         fps: 10,
-        rows: 4,
-        columns: 4,
+        rows: 6,
+        columns: 6,
         gridWidth: 50,
         gridHeight: 50,
 
