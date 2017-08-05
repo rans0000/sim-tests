@@ -13,8 +13,8 @@
     };
     
     Tile.prototype.maxFertility = 100;
-    Tile.prototype.sandColor = '#e2cb6b';
-    Tile.prototype.fertileColor = '#46be62';
+    Tile.prototype.sandColor = '#fae592';
+    Tile.prototype.fertileColor = '#59c76e';
 
     Tile.prototype.update = function () {
         //console.log('updating tile...');
