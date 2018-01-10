@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Request Frame</title>
+    </head>
+    <body>
+        <div class="wrapper-all">
+            <canvas width="640" height="200" id="canvas"></canvas>
+            <br>
+            <button type="button" id="btn-play">Play</button>
+            <button type="button" id="btn-pause">Pause</button>
+        </div>
+        <script>
+            (function(){
+                "use strict";
+
+                var canvas = document.getElementById('canvas');
+                var ctx = canvas.getContext('2d');
+                var animId = null;
+                var posX = 0;
+                var timestampLast = 0;
+                var fps = 65;
+
+
+                function animate (timestampCurrent) {
+                    animId = requestAnimationFrame(animate);
+                    
+                    var delta = timestampCurrent - timestampLast;
+                    //console.log('delta: %f  === fps: %f', delta, 1000/fps);
+
+                    if(fps && delta < 1000/fps){
+                        return;
+                    }
+                    
+                    console.log(1000/delta);
+                    posX = (posX + 2)%640;
+                    drawBox(posX);
+                    timestampLast = timestampCurrent? timestampCurrent : 0;
+                }
+
+                animate();
+                //--------------------
+                function drawBox (posX) {
+                    ctx.clearRect(0, 0 , 640, 200);
+                    ctx.fillStyle = '#a34242';
+                    ctx.fillRect(posX, 10, 20, 20);
+                }
+
+                document.getElementById('btn-pause').addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    cancelAnimationFrame(animId);
+                    animId = null;
+
+                });
+                document.getElementById('btn-play').addEventListener('click', function (event) {
+                    event.preventDefault();
+                    if(!animId){
+                        animate();
+                    }
+                });
+            })();
+        </script>
+    </body>
+</html>
